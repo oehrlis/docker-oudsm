@@ -32,6 +32,14 @@ MAINTAINER Stefan Oehrli <stefan.oehrli@trivadis.com>
 ARG MOS_USER
 ARG MOS_PASSWORD
 
+# environment variables (defaults for wlst and createAndStartOUDSMDomain.sh)
+ENV DOMAIN_NAME="${DOMAIN_NAME:-oudsm_domain}" \
+    DOMAIN_HOME=/u01/domains/${DOMAIN_NAME:-oudsm_domain} \
+    ADMIN_PORT="${ADMIN_PORT:-7001}" \
+    ADMIN_SSLPORT="${ADMIN_SSLPORT:-7002}" \
+    ADMIN_USER="${ADMIN_USER:-weblogic}" \
+    ADMIN_PASSWORD="${ADMIN_PASSWORD:-""}"
+
 # copy all scripts to DOCKER_BIN
 ADD scripts /opt/docker/bin/
 ADD software /tmp/download
@@ -40,7 +48,11 @@ ADD software /tmp/download
 RUN /opt/docker/bin/setup_oudsm.sh MOS_USER=$MOS_USER MOS_PASSWORD=$MOS_PASSWORD
 
 # OUD admin and ldap ports as well the OUDSM console
-EXPOSE 1389 1636 4444 8989 7001
+EXPOSE 7001 7002
 
 # Oracle data volume for OUD instance and configuration files
 VOLUME ["/u01"]
+
+# entrypoint for database creation, startup and graceful shutdown
+ENTRYPOINT ["/opt/docker/bin/createAndStartOUDSMDomain.sh"]
+CMD [""]
