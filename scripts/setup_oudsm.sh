@@ -113,7 +113,7 @@ echo "--- Upgrade OS and install additional Packages ---------------------------
 yum upgrade -y
 
 # install basic packages util-linux, libaio 
-yum install -y libaio util-linux hostname which unzip zip tar sudo
+yum install -y libaio util-linux procps-ng hostname which unzip zip tar sudo
 
 # add oracle to the sudoers
 echo "oracle  ALL=(ALL)   NOPASSWD: ALL" >>/etc/sudoers
