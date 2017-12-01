@@ -126,8 +126,11 @@ The following docker run command does create a volume for the OUDSM domain and p
         docker run --detach --volume [<host mount point>:]/u01 -p 7001:7001 -p 7002:7002 \
           --hostname oudsm --name oudsm oehrlis/oudsm
 
-Alternative run command 
+Alternative run command to overwrite the default values for creating the OUDSM domain.
 
+        docker run --detach -e ADMIN_PORT=7070 -e ADMIN_PASSWORD=welcome1 \
+          --volume [<host mount point>:]/u01 -p 7070:7070 -p 7002:7002 \
+          --hostname oudsm --name oudsm oehrlis/oudsm
 
 If you need to find the passwords at a later time, grep for "password" in the Docker logs generated during the startup of the container. To look at the Docker Container logs run:
 

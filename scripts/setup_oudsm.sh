@@ -119,7 +119,7 @@ fi
 echo "--- Install OUD Base scripts ---------------------------------------------------"
 # Install OUD Base scripts
 chmod 755 $DOWNLOAD/$OUDBASE_PKG
-sudo -u oracle $DOWNLOAD/$OUDBASE_PKG -v -b /u00/app/oracle -d $ORACLE_DATA
+sudo -u oracle $DOWNLOAD/$OUDBASE_PKG -v -a -b /u00/app/oracle -d $ORACLE_DATA
 
 # update bash_profile
 

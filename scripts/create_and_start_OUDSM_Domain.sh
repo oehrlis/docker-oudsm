@@ -78,7 +78,7 @@ if [ $ADD_DOMAIN -eq 0 ]; then
     sed -i -e "s|ADMIN_PASSWORD|$s|g" /opt/docker/bin/create_OUDSM.py
 
     # Create an empty domain
-    su - oracle -c "/u00/app/oracle/product/fmw12.2.1.3.0/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning /opt/docker/bin/create_OUDSM.py"
+    su - oracle -m -c "/u00/app/oracle/product/fmw12.2.1.3.0/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning /opt/docker/bin/create_OUDSM.py"
     su - oracle -c "${DOMAIN_HOME}/bin/setDomainEnv.sh" 
 fi
 
