@@ -17,4 +17,6 @@
 # see git revision history for more information on changes/updates
 # TODO.......:
 # -----------------------------------------------------------------------------
-docker build -t oehrlis/oudsm .
+DOCKERFILE="$(dirname $0)/../Dockerfile"
+DOCKERDIR="$(dirname $0)/.."
+docker build -t oehrlis/oudsm -f "${DOCKERFILE}" "${DOCKERDIR}"

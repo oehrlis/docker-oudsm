@@ -2,12 +2,12 @@
 # Trivadis AG, Infrastructure Managed Services
 # Saegereistrasse 29, 8152 Glattbrugg, Switzerland
 # ----------------------------------------------------------------------
-# Name.......: OUD.dockerfile 
+# Name.......: Dockerfile 
 # Author.....: Stefan Oehrli (oes) stefan.oehrli@trivadis.com
 # Editor.....: 
 # Date.......: 
 # Revision...: 
-# Purpose....: Dockerfile to build oud standalone base image
+# Purpose....: Dockerfile to build OUDSM image
 # Notes......: --
 # Reference..: --
 # License....: CDDL 1.0 + GPL 2.0
@@ -15,8 +15,7 @@
 # Modified...:
 # see git revision history for more information on changes/updates
 # TODO.......:
-# - avoid temporary oud jar file in image
-# - add oud or base env
+# --
 # ----------------------------------------------------------------------
 
 # Pull base image
@@ -54,5 +53,5 @@ EXPOSE 7001 7002
 VOLUME ["/u01"]
 
 # entrypoint for database creation, startup and graceful shutdown
-ENTRYPOINT ["/opt/docker/bin/createAndStartOUDSMDomain.sh"]
+ENTRYPOINT ["/opt/docker/bin/create_and_start_OUDSM_Domain.sh"]
 CMD [""]
