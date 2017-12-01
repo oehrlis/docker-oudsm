@@ -52,6 +52,6 @@ EXPOSE 7001 7002
 # Oracle data volume for OUD instance and configuration files
 VOLUME ["/u01"]
 
-# entrypoint for database creation, startup and graceful shutdown
+# entrypoint for OUDSM domain creation, startup and graceful shutdown
 ENTRYPOINT ["/opt/docker/bin/create_and_start_OUDSM_Domain.sh"]
 CMD [""]
