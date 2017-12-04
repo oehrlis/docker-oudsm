@@ -50,6 +50,9 @@ ENV DOWNLOAD=/tmp/download \
     ADMIN_USER=${ADMIN_USER:-weblogic} \
     ADMIN_PASSWORD=${ADMIN_PASSWORD:-""}
 
+# Oracle data volume for OUD instance and configuration files
+VOLUME ["${ORACLE_DATA}"]
+
 # copy all scripts to DOCKER_BIN
 COPY scripts ${DOCKER_SCRIPTS}
 COPY software ${DOWNLOAD}
@@ -68,10 +71,7 @@ RUN ${DOCKER_SCRIPTS}/setup_oudsm.sh MOS_USER=${MOS_USER} MOS_PASSWORD=${MOS_PAS
 # OUD admin and ldap ports as well the OUDSM console
 EXPOSE ${ADMIN_PORT} ${ADMIN_SSLPORT}
 
-# Oracle data volume for OUD instance and configuration files
-VOLUME ["${ORACLE_DATA}"]
-
 # entrypoint for OUDSM domain creation, startup and graceful shutdown
-ENTRYPOINT ["${DOCKER_SCRIPTS}/create_and_start_OUDSM_Domain.sh"]
+ENTRYPOINT ["/opt/docker/bin/create_and_start_OUDSM_Domain.sh"]
 CMD [""]
 # --- EOF --------------------------------------------------------------
