@@ -5,7 +5,7 @@
 # Name.......: create_OUDSM.py
 # Author.....: Stefan Oehrli (oes) stefan.oehrli@trivadis.com
 # Editor.....: Stefan Oehrli
-# Date.......: 2017.09.22
+# Date.......: 2017.12.04
 # Revision...:
 # Purpose....: Script to create OUDSM Domain
 # Notes......:
@@ -20,11 +20,12 @@ import os
 
 # define environment variables
 domain_name      = os.environ.get('DOMAIN_NAME', "oudsm_domain")
-domain_path      = os.environ.get('DOMAIN_HOME', "/u01/domains/%s") % domain_name
+domain_path      = os.environ.get('DOMAIN_HOME', "/u01/domains/%s" % domain_name)
 admin_port       = int(os.environ.get('ADMIN_PORT', "7001"))
 admin_sslport    = int(os.environ.get('ADMIN_SSLPORT', "7002"))
 admin_user       = os.environ.get('ADMIN_USER', "weblogic")
 admin_pass       = "ADMIN_PASSWORD"
+
 
 print('Domain Name     : [%s]' % domain_name);
 print('Domain Path     : [%s]' % domain_path);

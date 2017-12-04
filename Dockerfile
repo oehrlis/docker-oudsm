@@ -20,7 +20,6 @@
 
 # Pull base image
 # ----------------------------------------------------------------------
-#FROM oehrlis/tvd
 FROM oraclelinux:7-slim
 
 # Maintainer
@@ -31,27 +30,48 @@ MAINTAINER Stefan Oehrli <stefan.oehrli@trivadis.com>
 ARG MOS_USER
 ARG MOS_PASSWORD
 
-# environment variables (defaults for wlst and createAndStartOUDSMDomain.sh)
-ENV DOMAIN_NAME="${DOMAIN_NAME:-oudsm_domain}" \
+# Arguments for Oracle Installation
+ARG ORACLE_ROOT
+ARG ORACLE_DATA
+ARG ORACLE_BASE
+
+# Environment variables required for this build (do NOT change)
+# -------------------------------------------------------------
+ENV DOWNLOAD=/tmp/download \
+    DOCKER_SCRIPTS=/opt/docker/bin \
+    ORACLE_ROOT=${ORACLE_ROOT:-/u00} \
+    ORACLE_DATA=${ORACLE_DATA:-/u01} \
+    ORACLE_BASE=${ORACLE_BASE:-/u00/app/oracle} \
+    ORACLE_HOME_NAME=fmw12.2.1.3.0 \
+    DOMAIN_NAME=${DOMAIN_NAME:-oudsm_domain} \
     DOMAIN_HOME=/u01/domains/${DOMAIN_NAME:-oudsm_domain} \
-    ADMIN_PORT="${ADMIN_PORT:-7001}" \
-    ADMIN_SSLPORT="${ADMIN_SSLPORT:-7002}" \
-    ADMIN_USER="${ADMIN_USER:-weblogic}" \
-    ADMIN_PASSWORD="${ADMIN_PASSWORD:-""}"
+    ADMIN_PORT=${ADMIN_PORT:-7001} \
+    ADMIN_SSLPORT=${ADMIN_SSLPORT:-7002} \
+    ADMIN_USER=${ADMIN_USER:-weblogic} \
+    ADMIN_PASSWORD=${ADMIN_PASSWORD:-""}
 
 # copy all scripts to DOCKER_BIN
-ADD scripts /opt/docker/bin/
-ADD software /tmp/download
+COPY scripts ${DOCKER_SCRIPTS}
+COPY software ${DOWNLOAD}
 
-# image setup via shell script to reduce layers and optimize final disk usage
-RUN /opt/docker/bin/setup_oudsm.sh MOS_USER=$MOS_USER MOS_PASSWORD=$MOS_PASSWORD
+# Java and OUD base environment setup via shell script to reduce layers and 
+# optimize final disk usage
+RUN ${DOCKER_SCRIPTS}/setup_java.sh MOS_USER=${MOS_USER} MOS_PASSWORD=${MOS_PASSWORD} && \
+    ${DOCKER_SCRIPTS}/setup_oudbase.sh
+
+# Switch to user oracle, oracle software as to be installed with regular user
+USER oracle
+
+# Instal OUD / OUDSM via shell script to reduce layers and optimize final disk usage
+RUN ${DOCKER_SCRIPTS}/setup_oudsm.sh MOS_USER=${MOS_USER} MOS_PASSWORD=${MOS_PASSWORD}
 
 # OUD admin and ldap ports as well the OUDSM console
-EXPOSE 7001 7002
+EXPOSE ${ADMIN_PORT} ${ADMIN_SSLPORT}
 
 # Oracle data volume for OUD instance and configuration files
-VOLUME ["/u01"]
+VOLUME ["${ORACLE_DATA}"]
 
 # entrypoint for OUDSM domain creation, startup and graceful shutdown
-ENTRYPOINT ["/opt/docker/bin/create_and_start_OUDSM_Domain.sh"]
+ENTRYPOINT ["${DOCKER_SCRIPTS}/create_and_start_OUDSM_Domain.sh"]
 CMD [""]
+# --- EOF --------------------------------------------------------------

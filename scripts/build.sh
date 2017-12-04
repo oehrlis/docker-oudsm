@@ -5,8 +5,8 @@
 # -----------------------------------------------------------------------------
 # Name.......: build.sh 
 # Author.....: Stefan Oehrli (oes) stefan.oehrli@trivadis.com
-# Editor.....: 
-# Date.......: 
+# Editor.....: Stefan Oehrli
+# Date.......: 2017.12.04
 # Revision...: 
 # Purpose....: Build script for docker image 
 # Notes......: --
