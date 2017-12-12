@@ -56,6 +56,11 @@ yum upgrade -y
 # install basic packages util-linux, libaio 
 yum install -y unzip gzip tar hostname which procps-ng
 
+# remove unwanted locales
+/usr/bin/localedef --list-archive | grep -v -i ^en | xargs /usr/bin/localedef --verbose --delete-from-archive
+mv /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive.tmpl
+/usr/sbin/build-locale-archive --verbose
+
 # Download Server JRE 8u144 package if it does not exist /tmp/download
 if [ ! -e ${DOWNLOAD}/${JAVA_PKG} ]
 then

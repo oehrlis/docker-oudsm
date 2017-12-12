@@ -1,4 +1,7 @@
 # Oracle Unified Directory on Docker
+
+**NOTE** This repository has been merged with [docker-oud](https://github.com/oehrlis/docker-oud) and is currently just keepd as reference.
+
 Docker image for a collocated Unified Directory 12.2.1.3 setup with Oracle
 Fusion Middleware Infrastructure 12.2.1.3
 
